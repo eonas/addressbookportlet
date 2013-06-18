@@ -138,12 +138,13 @@
             <version>2.2.9</version>
         </dependency>
 
+
+    </dependencies>
+
 	<scm>
 		<connection>scm:git:git@github.com:eonas/addressbookportlet.git</connection>
 		<developerConnection>scm:git:git@github.com:eonas/addressbookportlet.git</developerConnection>
 		<url>https://github.com/eonas/addressbookportlet.git</url>
 	</scm>
-
-    </dependencies>
 
 </project>
