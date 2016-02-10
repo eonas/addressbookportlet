@@ -31,7 +31,7 @@ public class Dao<T extends LdapSelectableData> {
         em.merge(object);
     }
 
-    public List<T> load(int first, int pageSize, @Nullable String sortField, @Nullable SortOrder sortOrder, @Nullable Map<String, String> filters) {
+    public List<T> load(int first, int pageSize, @Nullable String sortField, @Nullable SortOrder sortOrder, @Nullable Map<String, Object> filters) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(clazz);
         //Metamodel m = em.getMetamodel();
@@ -42,7 +42,7 @@ public class Dao<T extends LdapSelectableData> {
         if (false && filters != null) {
             // untested !!!
             for (String filter : filters.keySet()) {
-                String value = filters.get(filter);
+                Object value = filters.get(filter);
                 final Path<String> objectPath = all.get(filter);
                 cq.where(cb.like(objectPath, value + "%"));
             }

@@ -23,6 +23,12 @@
             <!-- <portlet-mode>edit</portlet-mode>  -->
             <portlet-mode>help</portlet-mode>
         </supports>
+        <supports>
+            <mime-type>image/jpeg</mime-type>
+            <portlet-mode>view</portlet-mode>
+            <!-- <portlet-mode>edit</portlet-mode>  -->
+            <portlet-mode>help</portlet-mode>
+        </supports>
         <portlet-info>
             <title>Addressbook</title>
             <short-title>Addressbook</short-title>

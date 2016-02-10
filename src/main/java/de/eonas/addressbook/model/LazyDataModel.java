@@ -19,7 +19,7 @@ public interface LazyDataModel<T extends LdapSelectableData> extends SelectableD
      * Diese Funktion ist der Kern des Lazy Loadings. Bitte nicht verwenden, Sortieren geht nicht, weil OpenLdap die
      * extension nicht unterstützt. Pagination geht aus dem gleichen Grund nur schlecht.
      */
-    List<T> load(int first, int pageSize, @Nullable String sortField, @Nullable SortOrder sortOrder, @Nullable Map<String, String> filters);
+    List<T> load(int first, int pageSize, @Nullable String sortField, @Nullable SortOrder sortOrder, @Nullable Map<String, Object> filters);
 
     @Override
     Object getRowKey(@NotNull T object);

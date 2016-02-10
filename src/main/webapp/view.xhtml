@@ -1,7 +1,8 @@
 <f:view
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:p="http://primefaces.org/ui">
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:portlet="http://java.sun.com/portlet_2_0">
 <h:head>
     <style type="text/css">
         .bold {
@@ -63,9 +64,28 @@
         }
 
     </style>
+
 </h:head>
 <h:body>
+
+<h:form id="form2">
+    <p:commandButton id="downloadLink" value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop)"
+                     icon="ui-icon-arrowthichk-s">
+        <p:fileDownload value="#{viewBean.jpegPhotoStreamEdit}" contentDisposition="inline"/>
+    </p:commandButton>
+
+    <script type="text/javascript">
+        function start() {
+        }
+
+        function stop() {
+        }
+    </script>
+</h:form>
 <h:form id="form" enctype="multipart/form-data">
+
+
+<a href="#{viewBean.resourceLink}">Link</a>
 
 <p:growl id="growl" showDetail="true"/>
 
@@ -79,7 +99,7 @@
              filteredValue="#{viewBean.filteredValue}"
             >
 
-    <p:ajax event="rowSelect" update=":form:dialog :form:growl" oncomplete="personDialog.show()"/>
+    <p:ajax event="rowSelect" update=":form:dialog :form:growl" oncomplete="PF('personDialog').show()"/>
     <p:ajax event="rowUnselect" update=":form:growl"/>
 
     <p:column headerText="Name" sortBy="#{person.cn}" filterBy="#{person.displayName}" styleClass="oben">
@@ -106,7 +126,7 @@
 <div class="buttonRow marginTop10">
 
     <p:commandButton value="New Entry" icon="ui-icon-circle-plus" update="panelEdit panelView :form:growl"
-                     action="#{viewBean.createEntry}" oncomplete="personDialog.show()"/>
+                     action="#{viewBean.createEntry}" oncomplete="PF'('personDialog').show()"/>
 
     <p:commandButton value="Reload" icon="ui-icon-arrowrefresh-1-w" update="personTable :form:growl"
                      action="#{viewBean.refresh}" />
@@ -246,7 +266,6 @@
                          action="#{viewBean.deleteEntry}" disabled="#{viewBean.selectedPerson.dn == null}"/>
         <p:commandButton id="close" value="Close" icon="ui-icon-close" action="#{viewBean.switchToView}"
                          onclick="personDialog.hide()"/>
-
     </div>
 </p:panel>
 
@@ -377,8 +396,9 @@
                          action="#{viewBean.switchToView}" disabled="#{viewBean.editPerson.dn == null}"/>
         <p:commandButton value="Remove Picture" icon="ui-icon-trash" update="panelEdit panelView :form:growl"
                          action="#{viewBean.deletePic}" disabled="#{empty viewBean.editPerson.jpegPhoto}"/>
-
     </div>
+
+
 
     <p:fileUpload styleClass="marginTop20" fileUploadListener="#{viewBean.handleFileUpload}"
                   mode="advanced"

@@ -71,7 +71,7 @@ public class LazyLdapDataModel<T extends LdapSelectableData> extends org.primefa
      * Diese Funktion ist der Kern des Lazy Loadings. Bitte nicht verwenden, Sortieren geht nicht, weil OpenLdap die
      * extension nicht unterstützt. Pagination geht aus dem gleichen Grund nur schlecht.
      */
-    public List<T> load(int first, int pageSize, @Nullable String sortField, @Nullable SortOrder sortOrder, @Nullable Map<String, String> filters) {
+    public List<T> load(int first, int pageSize, @Nullable String sortField, @Nullable SortOrder sortOrder, @Nullable Map<String, Object> filters) {
 
         try {
             List<T> list = new ArrayList<T>();
@@ -83,14 +83,14 @@ public class LazyLdapDataModel<T extends LdapSelectableData> extends org.primefa
             Set<String> exactMatch = new HashSet<String>();
 
             if (filters == null) {
-                filters = new HashMap<String, String>();
+                filters = new HashMap<String, Object>();
             }
 
             filters.put("objectclass", objectClass);
             exactMatch.add("objectclass");
 
             StringBuilder ldapFilterString = new StringBuilder();
-            List<String> objects = new ArrayList<String>();
+            List<Object> objects = new ArrayList<Object>();
             constructFilter(filters, ldapFilterString, objects, exactMatch);
 
             int numberOfEntries = 0;
@@ -175,9 +175,9 @@ public class LazyLdapDataModel<T extends LdapSelectableData> extends org.primefa
         }
     }
 
-    private void constructFilter(@NotNull Map<String, String> filters, @NotNull StringBuilder ldapFilterString, @NotNull List<String> objects, @NotNull Set<String> exactMatch) {
+    private void constructFilter(@NotNull Map<String, Object> filters, @NotNull StringBuilder ldapFilterString, @NotNull List<Object> objects, @NotNull Set<String> exactMatch) {
         int pos = 0;
-        for (Map.Entry<String, String> filter : filters.entrySet()) {
+        for (Map.Entry<String, Object> filter : filters.entrySet()) {
             String key = filter.getKey();
             ldapFilterString.append(String.format("(%s={%d}%s)", key, pos, exactMatch.contains(key) ? "" : "*"));
             objects.add(filter.getValue());

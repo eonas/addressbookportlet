@@ -49,6 +49,16 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
+    <servlet>
+        <servlet-name>download</servlet-name>
+        <servlet-class>de.eonas.addressbook.DownloadServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>download</servlet-name>
+        <url-pattern>/download</url-pattern>
+    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>pluto</servlet-name>
         <url-pattern>/PlutoInvoker/addressbook</url-pattern>

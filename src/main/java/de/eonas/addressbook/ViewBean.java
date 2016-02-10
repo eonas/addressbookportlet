@@ -12,19 +12,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.jsf.FacesContextUtils;
+import sun.misc.IOUtils;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
 import javax.naming.NamingException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.ResourceURL;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.URL;
 import java.util.List;
 
 @ManagedBean
@@ -187,10 +193,17 @@ public class ViewBean implements Serializable {
     }
 
     @NotNull
-    public Object getJpegPhotoStreamEdit() {
-        if (editPerson == null) return IMAGES_NOPICTURE_PNG;
-        final byte[] jpegPhoto = editPerson.getJpegPhoto();
-        if (jpegPhoto == null) return IMAGES_NOPICTURE_PNG;
+    public Object getJpegPhotoStreamEdit() throws IOException {
+        byte[] jpegPhoto = null;
+        if (editPerson != null) {
+            jpegPhoto = editPerson.getJpegPhoto();
+        }
+        if (jpegPhoto == null) {
+            URL resource = ViewBean.class.getResource("/nopicture.png");
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            org.apache.commons.io.IOUtils.copy(resource.openStream(), out);
+            jpegPhoto = out.toByteArray();
+        }
         return new DefaultStreamedContent(new ByteArrayInputStream(jpegPhoto), "image/jpeg", "logo.jpg");
     }
 
@@ -203,4 +216,14 @@ public class ViewBean implements Serializable {
     }
 
 
+    public String getResourceLink() {
+        ExternalContext extcontext = FacesContext.getCurrentInstance().getExternalContext();
+        RenderResponse res = (RenderResponse) extcontext.getResponse();
+        ResourceURL downloadLink = res.createResourceURL();
+        downloadLink.setResourceID("/download");
+        downloadLink.setParameter("key", "value");
+        downloadLink.setCacheability(ResourceURL.FULL);
+        downloadLink.setProperty("Prop", "Me");
+        return downloadLink.toString();
+    }
 }
