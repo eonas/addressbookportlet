@@ -163,23 +163,12 @@
 	</dependency>
 
         <dependency>
-            <groupId>de.eonas.portal</groupId>
-            <artifactId>opencmsportaldriver</artifactId>
-            <version>9.0.0.3-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.apache.portals.pluto</groupId>
             <artifactId>pluto-portal-driver-impl</artifactId>
             <version>2.0.3</version>
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>de.techem.portal</groupId>
-            <artifactId>PortalCommonsHelper</artifactId>
-            <version>0.2.3</version>
-        </dependency>
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
